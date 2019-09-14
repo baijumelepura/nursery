@@ -1,16 +1,51 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+//require APPPATH . '/libraries/CreatorJwt.php';
+
 class Mobileservice extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('User');
-
+        $this->load->model('User');
 	}
 	public function index()
 	{
-	  // header('Content-Type: application/json');
+
+
+
+      // $data = $this->jwt->decode('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJDdXJyZW5UaW1lIjoiMjAxOS0wOS0xMyAwNzo1MzowOSIsIkV4cFRpbWUiOiIyMDE5LTA5LTEzIDA3OjUzOjA5In0.2976wr9NBlcFfm9fQGeD2v8AgJPwGZ0xCY9iENuyTDo',config_item('JWT_key'),array('HS256'));
+    
+    
+    //die();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	   if(isset($_POST['Method'])){
 		switch ($_POST['Method']) {	
@@ -54,10 +89,13 @@ class Mobileservice extends CI_Controller {
      * @return array
      */
     private function error($message, $code)
-    {
+    {   
+        $tokenData['CurrenTime'] = Date('Y-m-d h:i:s');
+        $tokenData['ExpTime'] = Date('Y-m-d h:i:s');
         return array(
             'data' => null,
             'status' => false,
+            'Tocken'=>$this->jwt->encode($tokenData,config_item('JWT_key')),
             'error' => array(
                 'errorMsg' => $message,
                 'errorCode' => $code
@@ -73,9 +111,12 @@ class Mobileservice extends CI_Controller {
      * @return array
      */
     private function success($data)
-    {
+    {  
+        $tokenData['CurrenTime'] = Date('Y-m-d h:i:s');
+        $tokenData['ExpTime'] = Date('Y-m-d h:i:s');
         return array(
             'data' => $data,
+            'Tocken'=>$this->jwt->encode($tokenData,config_item('JWT_key')),
             'status' => true,
             'error' => null
         );

@@ -23,10 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$HTTP = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-$config['base_url'] = $HTTP."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-
-
+$root  = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
+$root .= $_SERVER['SERVER_NAME'].dirname($_SERVER["REQUEST_URI"].'?').'/';
+$config['base_url'] = $root;
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -326,7 +325,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'globalhorizon';
 
 /*
 |--------------------------------------------------------------------------
@@ -405,8 +404,8 @@ $config['sess_regenerate_destroy'] = FALSE;
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_secure']	= true;
+$config['cookie_httponly'] 	= true;
 
 /*
 |--------------------------------------------------------------------------
@@ -450,7 +449,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = TRUE;
+$config['csrf_protection'] = false;
 $config['csrf_token_name'] = '__CSRFToken__';
 $config['csrf_cookie_name'] = '__CSRFToken__';
 $config['csrf_expire'] = 72000;

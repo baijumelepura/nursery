@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //require APPPATH . '/libraries/CreatorJwt.php';
 
-class Mobileservice extends CI_Controller {
+class Mobileservice extends MY_Controller {
 
 	public function __construct(){
 		parent::__construct();

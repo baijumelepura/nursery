@@ -2,9 +2,6 @@
 
 class User extends CI_Model {
 
-// public $title;
-// public $content;
-// public $date;
    /**
      * Return signp 
      *
@@ -12,9 +9,20 @@ class User extends CI_Model {
      *
      * @return Boolean
      */
+    // private static $db;
+    // function __construct() {
+    //   parent::__construct();
+    //   self::$db = &get_instance()->db;
+    // }
+
     public function Signup($data)
     {
-    return $this->db->insert('users', $data);
+
+        if($this->db->insert('school', $data['schoolData'])){
+            return $this->db->insert('users', $data['Admindata']) ? true : false;
+        }else{
+            return false;
+        }
     }
 
 

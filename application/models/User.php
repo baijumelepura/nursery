@@ -9,22 +9,25 @@ class User extends CI_Model {
      *
      * @return Boolean
      */
-    // private static $db;
-    // function __construct() {
-    //   parent::__construct();
-    //   self::$db = &get_instance()->db;
-    // }
-
     public function Signup($data)
     {
-
         if($this->db->insert('school', $data['schoolData'])){
             return $this->db->insert('users', $data['Admindata']) ? true : false;
         }else{
             return false;
         }
     }
+       /**
+     * Return country 
+     *
+     * Commom menthod for outputting country
+     *
+     * @return object
+     */
+    function get_country(){
+        return $this->db->select('country_id,name')->get('country')->result();
 
+    }
 
 
 }

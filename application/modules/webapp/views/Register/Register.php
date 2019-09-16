@@ -17,7 +17,17 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/iCheck/square/blue.css">
 
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/select2/dist/css/select2.css">
+ 
+  <style>
+  
+  .select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border: 1px solid #d2d6de;
+  border-radius: 0px; 
+  height: 33px;}
+  
+  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -29,120 +39,208 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition register-page">
-<div class="register-box">
+
+<div class="register-box " style="width: 72%;    margin: 2% auto;">
   <div class="register-logo">
     <a href=""><b>Global </b>horizon</a>
     <!-- <img src="<?php echo base_url();?>assets/img/logo1.jpg"> -->
   </div>
 
-  <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
-
-    <form action="<?php echo site_url('register');?>" method="post">
-     
-     <div class="form-group has-feedback">
-     <label>Nursery details :</label>
-        <input type="text" name="NurseryName" class="form-control" placeholder="Name">
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text" name="NurseryEmail" class="form-control" placeholder="Email">
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text"  name="NurseryPhone" class="form-control" placeholder="Phone">
-      </div>
-      <div class="form-group has-feedback">
-               <select class="form-control select2" name="NurseryCountry">
-                  <option selected="selected" >Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text"  name="NurseryCity"class="form-control" placeholder="City">
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text"  name="NurseryWebsite"class="form-control" placeholder="Website">
-      </div>
-      <div class="form-group has-feedback">
-        <textarea name="NurseryAddress"class="form-control" rows="3" placeholder="Address"></textarea>
-      </div>
 
 
-      
-      <div class="form-group has-feedback">
-      <label>Contact details :</label>
-        <input type="text"  name="ContactName"class="form-control" placeholder="Person Name">
-      </div>
 
-      <div class="form-group has-feedback">
-        <input type="text"  name="ContactPhone"class="form-control" placeholder="Phone">
-      </div>
+  <form action="<?php echo site_url('register');?>" method="post">
 
-      <div class="form-group has-feedback">
-        <input type="text"  name="ContactMobile"class="form-control" placeholder="Mobile">
-      </div>
+  <div class="box box-default box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title ">Register a new membership</h3>
 
-      <div class="form-group has-feedback">
-        <input type="text"  name="ContactEmail"class="form-control" placeholder="Email">
-      </div>
+          <div class="box-tools pull-right">
+            <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button> -->
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+        
+        
+        
+          <div class="row">
+          <div class="col-md-12">
+          <label>Nursery details :</label>
+           </div>
+            <div class="col-md-6">
+              <div class="form-group <?php if(form_error('NurseryName')){echo 'has-error';}?> ">
+              
+                 <input type="text" name="NurseryName" value="<?php echo set_value('NurseryName'); ?>" class="form-control" placeholder="Name">
+                 <span class="help-block"><?=form_error('NurseryName');?></span> 
+                </div>
+              <!-- /.form-group -->
+              <div class="form-group <?php if(form_error('NurseryPhone')){echo 'has-error';}?>">
+                  <input type="text" value="<?php echo set_value('NurseryPhone'); ?>"  name="NurseryPhone" class="form-control" placeholder="Phone">
+                <span class="help-block"><?=form_error('NurseryPhone');?></span> 
+               </div>
+              <div class="form-group <?php if(form_error('NurseryCity')){echo 'has-error';}?>">
+                 <input type="text"  value="<?php echo set_value('NurseryCity'); ?>" name="NurseryCity"class="form-control" placeholder="City">
+                 <span class="help-block"><?=form_error('NurseryCity');?></span> 
+              </div>
 
-      <div class="form-group has-feedback">
-        <input type="text"  name="ContactPosition"class="form-control" placeholder="Position">
-      </div>
+             <div class="form-group <?php if(form_error('NurseryAddress')){echo 'has-error';}?>">
+                <textarea name="NurseryAddress" class="form-control" rows="3" placeholder="Address"><?php echo set_value('NurseryAddress'); ?></textarea>
+                <span class="help-block"><?=form_error('NurseryAddress');?></span>    </div>
+            </div>
 
 
-      <div class="form-group has-feedback">
-      <label>Create a user ( administrator ) :</label>
-        <input type="email" name="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <!-- <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Full name">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div> -->
-      <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password"  name="cpassword"class="form-control" placeholder="Retype password">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
- 
 
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
+
+            <!-- /.col -->
+            <div class="col-md-6">
+              <div class="form-group <?php if(form_error('NurseryEmail')){echo 'has-error';}?>">
+              <input type="text" name="NurseryEmail" value="<?php echo set_value('NurseryEmail'); ?>" class="form-control" placeholder="Email">
+              <span class="help-block"><?=form_error('NurseryEmail');?></span>
+            </div>
+              <!-- /.form-group -->
+              <div class="form-group  <?php if(form_error('NurseryCountry')){echo 'has-error';}?>">
+              <select class="form-control select2"  name="NurseryCountry">
+              <option  value="">Select Country</option>
+                  <?php foreach($country as $country){ 
+                    $selected = (set_value('NurseryCountry')==$country->country_id)? 'selected = "selected"':'';
+                    ?>
+                    <option <?=$selected ;?> value="<?=$country->country_id;?>"  ><?=$country->name;?></option>
+                 <?php  } ?>
+               </select>
+               <span class="help-block"><?=form_error('NurseryCountry');?></span>
+               </div>
+              <div class="form-group <?php if(form_error('NurseryWebsite')){echo 'has-error';}?>">
+                 <input type="text"  value="<?php echo set_value('NurseryWebsite'); ?>"  name="NurseryWebsite"class="form-control" placeholder="Website">
+                 <span class="help-block"><?=form_error('NurseryWebsite');?></span>
+                </div>
+            </div>
+            <!-- /.col -->
+          </div>
+
+
+
+
+
+
+
+          <div class="row">
+          <div class="col-md-12">
+          <label>Contact details :</label>
+           </div>
+            <div class="col-md-6">
+              <div class="form-group <?php if(form_error('ContactName')){echo 'has-error';}?>">
+                  <input type="text" value="<?php echo set_value('ContactName'); ?>"  name="ContactName"class="form-control" placeholder="Person Name">
+                  <span class="help-block"><?=form_error('ContactName');?></span>
+                </div>
+         
+               <div class="form-group <?php if(form_error('ContactMobile')){echo 'has-error';}?>">
+                   <input type="text" value="<?php echo set_value('ContactMobile'); ?>"  name="ContactMobile"class="form-control" placeholder="Mobile">
+                   <span class="help-block"><?=form_error('ContactMobile');?></span>
+                  </div>
+               <div class="form-group <?php if(form_error('ContactPosition')){echo 'has-error';}?>">
+                   <input type="text" value="<?php echo set_value('ContactPosition'); ?>"  name="ContactPosition"class="form-control" placeholder="Position">
+                   <span class="help-block"><?=form_error('ContactPosition');?></span>
+                 </div>
+             </div>
+
+            <!-- /.col -->
+            <div class="col-md-6">
+              <div class="form-group  <?php if(form_error('ContactPhone')){echo 'has-error';}?>">
+                <input type="text" value="<?php echo set_value('ContactPhone'); ?>" name="ContactPhone"class="form-control" placeholder="Phone">
+                <span class="help-block"><?=form_error('ContactPhone');?></span>
+              </div>
+              <div class="form-group <?php if(form_error('ContactEmail')){echo 'has-error';}?>">
+                  <input type="text" value="<?php echo set_value('ContactEmail'); ?>" name="ContactEmail"class="form-control" placeholder="Email">
+                  <span class="help-block"><?=form_error('ContactEmail');?></span>
+                </div>
+              
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="col-md-12">
+          <label>Create a user ( administrator ) :</label>
+           </div>
+            <div class="col-md-6">
+              <div class="form-group <?php if(form_error('email')){echo 'has-error';}?>">
+                 <input type="text" value="<?php echo set_value('email'); ?>" name="email" class="form-control" placeholder="Email">
+                 <span class="help-block"><?=form_error('email');?></span>
+              </div>
+
+               <div class="form-group <?php if(form_error('cpassword')){echo 'has-error';}?>">
+               <input type="password"  name="cpassword"class="form-control" placeholder="Retype password">
+               <span class="help-block"><?=form_error('cpassword');?></span>
+                </div>
+
+
+
+
+             </div>
+
+            <!-- /.col -->
+            <div class="col-md-6">
+              <div class="form-group <?php if(form_error('password')){echo 'has-error';}?>">
+                      <input type="password" name="password" class="form-control" placeholder="Password">
+                      <span class="help-block"><?=form_error('password');?></span>
+                   </div>
+
+
+
+              <div class="form-group <?php if(form_error('captcha')){echo 'has-error';}?>">
+              <div class="col-md-4" style="padding-left: 0px;">   <?=$image;?></div>
+              <div class="col-md-8" style="padding-right: 0px;">     <input type="text" name="captcha" class="form-control" placeholder="Captcha">
+             
+              <span class="help-block"><?=form_error('captcha');?></span></div> 
+                 </div>
+              
+            </div>
+
+
+
+          </div>
+
+
+
+          <input type="hidden" name="capchar" value="<?=$word;?>">
+
+      <div class="box-footer" style="padding:0px;">
+      <br>
+      <div class="col-md-6" style="padding-left: 0px;">
+          <div class="checkbox icheck <?php if(form_error('checkbox')){echo 'has-error';}?>">
             <label>
-              <input type="checkbox"> I agree to the <a href="#">terms</a>
+              <input type="checkbox" name="checkbox"> I agree to the <a href="#">terms</a>
+              <span class="help-block"><?=form_error('checkbox');?></span>
             </label>
           </div>
         </div>
 
         
         <!-- /.col -->
-        <div class="col-xs-4">
+        <div class="col-md-6" style="padding-right: 0px;">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div>
-        <!-- /.col -->
+        </div>
+
+
+
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+  
       </div>
-    </form>
 
-    <!-- <div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
-        Google+</a>
-    </div> -->
 
-    <a href="login.html" class="text-center">I already have a membership</a>
-  </div>
-  <!-- /.form-box -->
+
+
+
+
+
+
+
+
+  
 </div>
 <!-- /.register-box -->
 
@@ -155,7 +253,7 @@
 <script src="<?php echo base_url();?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script>
   $(function () {
-    $('.select2').select2();
+    $('.select2').select2(['']);
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',

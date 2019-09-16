@@ -219,8 +219,10 @@
         
         <!-- /.col -->
         <div class="col-md-6" style="padding-right: 0px;">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button><br>
+          <a href="<?=base_url();?>" class="text-right pull-right">I already have a membership</a>
         </div>
+        
         </div>
 
 

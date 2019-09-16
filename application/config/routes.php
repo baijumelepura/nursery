@@ -49,9 +49,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'mobile';
+/*mobile service*/
 $route['api'] = 'mobileservice/mobileservice';
+
+/*web app*/
 $route['register'] = 'webapp/register';
+$route['signin'] = 'webapp/register/signin';
+$route['dashboard'] = 'webapp/home';
+
+
+
+
+
+$route['default_controller'] = $route['signin'];
 
 
 $route['404_override'] = '';

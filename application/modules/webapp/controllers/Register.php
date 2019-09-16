@@ -4,9 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Register extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
-	$this->load->model('User');
+	    $this->load->model('User');
 
 	}
+    /**
+     * Signup  for school / admin
+     */
 	public function index()
     {
 		$data['title'] = "Register a new membership"; 
@@ -26,10 +29,7 @@ class Register extends MY_Controller {
                 'grid' => array(255, 40, 40))
 			);
 		 $data = array_merge(create_captcha($vals),$data);
-
-	//	echo openssl_decrypt(openssl_encrypt("baiju***'.", "AES-128-ECB",config_item('encryption_key')),"AES-128-ECB",config_item('encryption_key'));
 	if($this->input->post()){
-
 		$this->form_validation->set_rules('NurseryName','Name','trim|required|min_length[3]|max_length[30]');
 		$this->form_validation->set_rules('NurseryPhone','Phone','trim|required|min_length[3]|max_length[15]|regex_match[/^[0-9,]+$/]');
 		$this->form_validation->set_rules('NurseryCity','City','trim|required');
@@ -47,7 +47,7 @@ class Register extends MY_Controller {
 		$this->form_validation->set_rules('cpassword', 'Retype password', 'trim|required');
 		$this->form_validation->set_rules('captcha', 'Captcha', 'trim|required|callback_validate_captcha');
 		$this->form_validation->set_rules('checkbox', 'agree', 'trim|required');
-	
+
 	if($this->form_validation->run()==true){
 		 /*school Details add */
 		$FormData['schoolData'] = [
@@ -68,7 +68,6 @@ class Register extends MY_Controller {
 			'email'=>$this->input->post('email'),
 			'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
 		$result = $this->User->Signup($FormData);
-
 		redirect('register');
 	}
 
@@ -84,6 +83,9 @@ class Register extends MY_Controller {
    }
    return FALSE;
 }
+    /**
+     * validate_captcha for signup
+     */
 public function validate_captcha($capchar){
     if($capchar != $this->input->post('capchar'))
     {
@@ -92,14 +94,78 @@ public function validate_captcha($capchar){
     }else{
 		return true;
 	}}
-	function valid_url($url){
-  //  $pattern = "/^((ht|f)tp(s?)\:\/\/|~/|/)?([w]{2}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?.";
-    if (!filter_var($url, FILTER_VALIDATE_URL))
+    /**
+     * validate Website URl for signup
+     */
+function valid_url($url){
+     if (!filter_var($url, FILTER_VALIDATE_URL))
     {
         return FALSE;
     }
     return TRUE;
 }
+   /**
+     * signin for all users
+     */
+function signin(){
+	$data['title'] = "Sign in to start your session"; 
+
+    // Cookie check
+	 if($this->input->cookie('remember_me')){
+		$cookievalue = json_decode($this->encrypt->decode($this->input->cookie('remember_me')),true);
+		$formData =[
+			"email"=>$cookievalue['email'],
+			"password"=>$cookievalue['password']];
+		 $userdata = $this->User->signin($formData);
+		 if($userdata){
+			$this->session->set_userdata(['user_id'=>$userdata->user_id]);
+			redirect('dashboard');
+			exit;
+		 }}
+		 // session redirection
+			if($this->session->userdata('user_id')){
+			  redirect('dashboard');
+			  exit;
+			}
+
+	if($this->input->post()){
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+		if($this->form_validation->run()==true){
+			$formData =[
+				 "email"=>$this->input->post('email'),
+				 "password"=>openssl_encrypt($this->input->post('password'), "AES-128-ECB",config_item('encryption_key'))
+			];
+		$userdetails=$this->User->signin($formData);
+		if($userdetails){
+			if($this->input->post('checkbox')){
+			$cookie = array(
+				'name'   => 'remember_me',
+				'value'  => $this->encrypt->encode(json_encode($userdetails)),
+				'expire' =>  172800,
+				'secure' => false
+			);
+			$this->input->set_cookie($cookie); 
+		   }
+			$this->session->set_userdata(['user_id'=>$userdetails->user_id]);
+			redirect('dashboard');
+			exit;
+		}
+		$this->session->set_flashdata('Warning', '<div class="callout callout-warning" style="padding: 7px 0px 15px 15px;">
+		The email / password you’ve entered is incorrect
+		</div>');
+	
+		}
+	}
+  $this->load->view('register/signin',$data);
+}
+
+
+
+
+
+
+
 
 }
 ?>

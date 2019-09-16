@@ -17,7 +17,7 @@ class User extends CI_Model {
             return false;
         }
     }
-       /**
+    /**
      * Return country 
      *
      * Commom menthod for outputting country
@@ -26,7 +26,20 @@ class User extends CI_Model {
      */
     function get_country(){
         return $this->db->select('country_id,name')->get('country')->result();
+    }
 
+    /**
+     * Return country 
+     *
+     * Commom menthod for outputting country
+     *
+     * @return object
+     */
+    function signin($data){
+        $this->db->select('user_id,email,password');
+        $this->db->where(array('email'=>$data['email'],'password' =>$data['password']));
+        $this->db->limit(1);
+        return $this->db->get('users')->row();
     }
 
 

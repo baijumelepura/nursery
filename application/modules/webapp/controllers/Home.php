@@ -5,15 +5,14 @@ class Home extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 	    $this->load->model('User');
-
 	}
     /**
      * Signup  for school / admin
      */
 	public function index()
     {
-		$data['title'] = "Register a new membership"; 
-		$this->load->view('dashboard/dashboard');
+		$data['title'] = "Dashboard"; 
+		$this->load->view('dashboard/dashboard',$data);
     }
    
 

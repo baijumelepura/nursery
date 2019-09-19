@@ -56,13 +56,9 @@ $route['api'] = 'mobileservice/mobileservice';
 $route['register'] = 'webapp/register';
 $route['signin'] = 'webapp/register/signin';
 $route['dashboard'] = 'webapp/home';
-
-
-
+$route['logout'] = 'webapp/register/logout';
 
 
 $route['default_controller'] = $route['signin'];
-
-
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

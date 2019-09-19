@@ -109,7 +109,6 @@ function valid_url($url){
      */
 function signin(){
 	$data['title'] = "Sign in to start your session"; 
-
     // Cookie check
 	 if($this->input->cookie('remember_me')){
 		$cookievalue = json_decode($this->encrypt->decode($this->input->cookie('remember_me')),true);
@@ -127,7 +126,6 @@ function signin(){
 			  redirect('dashboard');
 			  exit;
 			}
-
 	if($this->input->post()){
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -147,9 +145,9 @@ function signin(){
 			);
 			$this->input->set_cookie($cookie); 
 		   }
-			$this->session->set_userdata(['user_id'=>$userdetails->user_id]);
-			redirect('dashboard');
-			exit;
+          $this->session->set_userdata('user_id',$userdetails->user_id);
+	      redirect('dashboard');
+		  exit;
 		}
 		$this->session->set_flashdata('Warning', '<div class="callout callout-warning" style="padding: 7px 0px 15px 15px;">
 		The email / password you’ve entered is incorrect
@@ -159,13 +157,9 @@ function signin(){
 	}
   $this->load->view('register/signin',$data);
 }
-
-
-
-
-
-
-
-
+function logout(){
+	session_destroy();
+	redirect(site_url('signin'));
+}
 }
 ?>

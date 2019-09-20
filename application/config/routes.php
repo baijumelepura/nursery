@@ -53,10 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['api'] = 'mobileservice/mobileservice';
 
 /*web app*/
-$route['register'] = 'webapp/register';
-$route['signin'] = 'webapp/register/signin';
-$route['dashboard'] = 'webapp/home';
-$route['logout'] = 'webapp/register/logout';
+$route['register'] = 'Webapp/Register';
+$route['signin'] = 'Webapp/Register/signin';
+$route['dashboard'] = 'Webapp/Home';
+$route['logout'] = 'Webapp/Register/logout';
 
 
 $route['default_controller'] = $route['signin'];

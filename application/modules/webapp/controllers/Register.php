@@ -47,8 +47,23 @@ class Register extends MY_Controller {
 		$this->form_validation->set_rules('cpassword', 'Retype password', 'trim|required');
 		$this->form_validation->set_rules('captcha', 'Captcha', 'trim|required|callback_validate_captcha');
 		$this->form_validation->set_rules('checkbox', 'agree', 'trim|required');
+		$this->form_validation->set_rules('file', 'Image', 'callback_file_check');
 
 	if($this->form_validation->run()==true){
+	        	$filename = "";
+
+				if(isset($_FILES['file']['name']) && $_FILES['file']['name']!=""){
+                $config['upload_path']          = './assets/uploads/logo/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             =  200;
+                // $config['max_width']         = 1024;
+                //$config['max_height']         = 768;
+                $this->load->library('upload', $config);
+				$filename = $this->upload->do_upload('file');
+                if($filename){
+				   $filename = base_url().'assets/uploads/logo/'.$this->upload->data()['file_name'];
+				}}
+ 
 		 /*school Details add */
 		$FormData['schoolData'] = [
 			"school_name"=>$this->input->post('NurseryName'),
@@ -62,22 +77,43 @@ class Register extends MY_Controller {
 			"contact_phone"=>$this->input->post('ContactPhone'),
 			"contact_mobile"=>$this->input->post('ContactMobile'),
 			"contact_email"=>$this->input->post('ContactEmail'),
-			"contact_position"=>$this->input->post('ContactPosition')];
+			"contact_position"=>$this->input->post('ContactPosition'),
+			'school_logo'=>$filename];
 		/* Admin Details */
 		$FormData['Admindata'] = [
 			'email'=>$this->input->post('email'),
 			'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
 		$result = $this->User->Signup($FormData);
+		// $this->session->set_flashdata('Warning', '<div class="callout callout-warning" style="padding: 7px 0px 15px 15px;">
+		// The email / password you’ve entered is incorrect
+		// </div>');
 		redirect('register');
 	}
 
 	}
         $data['country']=$this->User->get_country();
-        $this->load->view('register/register',$data);
+        $this->load->view('Register/Register',$data);
 
 	}
-	public function password_check($str)
-{
+     /*
+     * file value and type check during validation
+     */
+    public function file_check($str){
+        $allowed_mime_type_arr = array('image/gif','image/jpeg','image/pjpeg','image/png','image/x-png');
+        if(isset($_FILES['file']['name']) && $_FILES['file']['name']!=""){
+			$mime = get_mime_by_extension($_FILES['file']['name']);
+            if(in_array($mime, $allowed_mime_type_arr)){
+                return true;
+            }else{
+                $this->form_validation->set_message('file_check', 'Please select only gif/jpg/png file.');
+                return false;
+            }
+        }else{
+          //  $this->form_validation->set_message('file_check', 'Please choose a file to upload.');
+            return true;
+        }
+	}
+public function password_check($str){
    if (preg_match('#[0-9]#', $str) && preg_match('#[a-zA-Z]#', $str)) {
      return TRUE;
    }
@@ -108,6 +144,7 @@ function valid_url($url){
      * signin for all users
      */
 function signin(){
+
 	$data['title'] = "Sign in to start your session"; 
     // Cookie check
 	 if($this->input->cookie('remember_me')){
@@ -155,7 +192,7 @@ function signin(){
 	
 		}
 	}
-  $this->load->view('register/signin',$data);
+  $this->load->view('Register/Signin',$data);
 }
 function logout(){
 	session_destroy();

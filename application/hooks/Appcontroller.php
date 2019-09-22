@@ -12,7 +12,7 @@ class Appcontroller {
 
     public function session_validation()
     {
-        $URL = ['Register-index','Register-signin'];
+        $URL = ['Register-index','Register-signin','Mobileservice-index'];
         if(!in_array($this->CI->router->fetch_class().'-'.$this->CI->router->fetch_method(),$URL)){
         if(!$this->CI->session->userdata('user_id')){
             redirect(site_url('signin'));

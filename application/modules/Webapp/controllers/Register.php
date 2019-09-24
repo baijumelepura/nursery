@@ -81,7 +81,7 @@ class Register extends MY_Controller {
 			'school_logo'=>$filename];
 		/* Admin Details */
 		$FormData['Admindata'] = [
-			'user_type'=>'Admin',
+			//'user_type'=>'Admin',
 			'email'=>$this->input->post('email'),
 			'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
 		$result = $this->User->Signup($FormData);
@@ -222,6 +222,12 @@ function signin(){
 function logout(){
 	session_destroy();
 	redirect(site_url('signin'));
+}
+function switchLanguage($language = null ) {
+	$language = ($language == "english") ? "arabic" : "english";
+	$this->session->set_userdata('site_lang', $language);
+	redirect($this->input->get('url'));
+	exit;
 }
 }
 ?>

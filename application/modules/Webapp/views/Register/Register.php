@@ -89,15 +89,11 @@
                  <span class="help-block"><?=form_error('NurseryCity');?></span> 
               </div>
 
-          
-
                 <div class="form-group <?php if(form_error('file')){echo 'has-error';}?>">
                 <span >Logo</span>
                 <input type="file" id="exampleInputFile" class="form-control" name="file" placeholder="Logo">
                  <span class="help-block"><?=form_error('file');?></span>
                 </div>
-
-
             </div>
 
 
@@ -123,6 +119,17 @@
                </select>
                <span class="help-block"><?=form_error('NurseryCountry');?></span>
                </div>
+
+
+
+
+
+
+
+
+
+
+               
               <div class="form-group <?php if(form_error('NurseryWebsite')){echo 'has-error';}?>">
               <span >Website <span style="color:red;">*</span></span>
                  <input type="text"  value="<?php echo set_value('NurseryWebsite'); ?>"  name="NurseryWebsite"class="form-control" placeholder="Website">
@@ -213,15 +220,12 @@
 
               <div class="form-group <?php if(form_error('captcha')){echo 'has-error';}?>">
               <span >Captcha <span style="color:red;">*</span></span><br>
-              <div class="col-md-4" style="padding-left: 0px;">   <?=$image;?></div>
-              <div class="col-md-8" style="padding-right: 0px;">     <input type="text" name="captcha" class="form-control" placeholder="Captcha">
-             
+              <div class="col-md-4" style="padding-left: 0px;"><?=$image;?></div>
+              <div class="col-md-8" style="padding-right: 0px;"><input type="text" name="captcha" class="form-control" placeholder="Captcha">
               <span class="help-block"><?=form_error('captcha');?></span></div> 
                  </div>
               
             </div>
-
-
 
           </div>
 

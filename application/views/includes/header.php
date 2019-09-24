@@ -13,7 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/select2/dist/css/select2.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,38 +42,9 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-<!-- 
-
-
-stdClass Object
-(
-    [user_id] => 8
-    [designation] => 
-    [school_logo] => 
-    [profile_pic] => 
-    [school_name] => iACUR7xIDC
-    [school_address] => E1YWXoYRSV
-    [school_country] => 106
-    [school_city] => mAvH8y3x7l
-    [school_phone] => 9037715996
-    [school_email] => baijumca005@gmail.co
-    [school_website] => http://localhost/nursery/regis
-    [contact_name] => hKqUhJOHKl
-    [contact_phone] => 9037715996
-    [contact_mobile] => 9037715996
-    [contact_email] => baijumca005@gmail.co
-    [contact_position] => T5ilpM1p4L
-    [user_is_active] => 1
-    [user_status] => 1
-    [school_is_active] => 1
-    [school_status] => 1
-    [user_first_name] => 
-    [user_last_name] => 
-    [user_email] => baijumca005@gmail.com
-) -->
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="<?=base_url();?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b><?= config_item('UserData')->school_name ? strtoupper(substr(config_item('UserData')->school_name, 0, 2)):'';?></b></span>
       <!-- logo for regular state and mobile devices -->
@@ -88,6 +61,14 @@ stdClass Object
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+
+
+        <li>
+                    <a href="<?=site_url('switchLanguage/'.$this->session->userdata('site_lang').'?url='.current_url());?>">
+                     <i class="fa fa-language"></i> 
+                     <?php if($this->session->userdata('site_lang')=='english'){echo 'عربى';}else{ echo "English";}?>
+                    </a>
+          </li>
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -165,6 +146,8 @@ stdClass Object
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li>  
+
+        
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -207,6 +190,7 @@ stdClass Object
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
+
           <!-- Tasks: style can be found in dropdown.less -->
          <?php /* <li class="dropdown tasks-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -317,10 +301,10 @@ stdClass Object
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="<?=site_url('profile');?>" class="btn btn-default btn-flat">Profile</a>
+                  <a href="<?=site_url('profile');?>" class="btn btn-default btn-flat"><?=lang('Profile');?></a>
                 </div>
                 <div class="pull-right">
-                  <a href="<?=site_url('logout');?>" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?=site_url('logout');?>" class="btn btn-default btn-flat"><?=lang('Sign_out');?>t</a>
                 </div>
               </li>
             </ul>

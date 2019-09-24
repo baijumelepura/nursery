@@ -81,5 +81,41 @@ class User extends CI_Model {
          return $this->db->get()->row();
     }
 
+    function profile_update($update,$user_id){
+        $this->db->where('user_id',$user_id);
+      return  $this->db->update('users', $update);
+    }
+
+    function document_insert($doc,$user_id){
+        $this->db->insert('document',['document_url' =>$doc,'user_id'=>$user_id]);
+        return $this->db->insert_id();
+    }
+    function get_profile_details($userid){
+        $this->db->select('*');
+        $this->db->where('user_id',$userid);
+        $data['user'] =  $this->db->get('users')->row();
+
+        $this->db->select('*');
+        $this->db->where('user_id',$userid);
+        $data['doc'] = $this->db->order_by("document_id", "DESC")->get('document')->result();
+        return $data;
+    }
+
+   function password_valid($pass){
+        $this->db->select('*');
+        $this->db->where(array('email'=>config_item('UserData')->user_email,'password'=>$pass));
+        return  $this->db->get('users')->row();
+   }
+   function getdocument($id,$user_id){
+       $this->db->select('*');
+        $this->db->where(['user_id'=>$user_id,'document_id'=>$id]);
+        return $this->db->get('document')->row();
+   }
+   function deletedocument($id,$user_id){
+    $this->db->where(['user_id'=>$user_id,'document_id'=>$id]);
+    return $this->db->delete('document');
+
+   }
+
  }
 ?>

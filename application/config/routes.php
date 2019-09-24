@@ -58,9 +58,7 @@ $route['signin'] = 'Webapp/Register/signin';
 $route['dashboard'] = 'Webapp/Home';
 $route['logout'] = 'Webapp/Register/logout';
 $route['profile'] = 'Webapp/Users';
-
-
-
+$route['switchLanguage/(:any)'] = 'Webapp/Register/switchLanguage/$1';
 
 
 
@@ -69,3 +67,4 @@ $route['profile'] = 'Webapp/Users';
 $route['default_controller'] = $route['signin'];
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+

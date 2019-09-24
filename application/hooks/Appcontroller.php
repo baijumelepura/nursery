@@ -23,6 +23,12 @@ class Appcontroller {
            $userdata->profile_pic = $userdata->profile_pic ? $userdata->profile_pic : base_url().'assets/img/profilepic.png';
            $userdata->school_logo = $userdata->school_logo ? $userdata->school_logo : base_url().'assets/img/logo.png';
            $this->CI->config->set_item('UserData',$userdata);
+              
+              /*Multy languag */
+               if(!$this->CI->session->userdata('site_lang')){ $this->CI->session->set_userdata('site_lang','english');}
+               $this->CI->lang->load($this->CI->session->userdata('site_lang'),$this->CI->session->userdata('site_lang'));
+              
+            
         }}
     }
 

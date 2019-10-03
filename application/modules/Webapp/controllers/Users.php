@@ -7,6 +7,7 @@ class Users extends MY_Controller {
 	}
 	public function index()
     {
+	//	header('Content-type: text/html; charset=utf-8');
 		$data['title'] = lang('User_profile'); 
 		$update = [];
         if($this->input->post()){
@@ -82,6 +83,7 @@ class Users extends MY_Controller {
 		}
 		$data['country']=$this->User->get_country();
 		$data['userdetails'] = $this->User->get_profile_details(config_item('UserData')->user_id);
+		
 		$this->load->view('Users/Profile',$data);
 	}
 	

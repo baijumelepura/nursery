@@ -38,17 +38,26 @@ $ActiveClass = $this->router->fetch_class().'-'.$this->router->fetch_method();
           </a>
         </li>
 
-
-        <li class="treeview">
+        <li class="treeview <?php if($ActiveClass=='Nursery-index'){echo 'active';}?>">
           <a href="#">
           <i class="fa fa-institution"></i>
           <span><?=lang('Nursery');?></span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+            <i class="fa fa-angle-left pull-right"></i>
+            <?php if(config_item('Notification')['TotalNotification'] > 0 ){ ?> 
+              <span class="label label-success pull-right"><?=config_item('Notification')['TotalNotification'];?></span>
+            <?php } ?>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-list" aria-hidden="true"></i> List Nursery</a></li>
+          <ul class="treeview-menu ">
+            <li class="<?php if($ActiveClass=='Nursery-index'){echo 'active';}?>"><a href="<?=base_url('nursery');?>"><i class="fa fa-list" aria-hidden="true"></i> <span>List Nursery</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            <?php if(config_item('Notification')['TotalNotification'] > 0 ){ ?> 
+              <span class="label label-success pull-right"><?=config_item('Notification')['TotalNotification'];?></span>
+            <?php } ?>
+            </span>
+            </a></li>
             <li><a href="pages/charts/morris.html"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Nursery</a></li>
             <li><a href="pages/charts/flot.html"><i class="fa fa-users" aria-hidden="true"></i> List Users</a></li>
           </ul>

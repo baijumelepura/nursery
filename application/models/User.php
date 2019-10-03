@@ -37,7 +37,7 @@ class User extends CI_Model {
      * @return object
      */
     function signin($data){
-        $sql = 'users.user_id,users.role,users.is_active as user_is_active, school.is_active as school_is_active';
+        $sql = 'users.user_id,users.email,users.role,users.is_active as user_is_active, school.is_active as school_is_active';
          $this->db->select($sql);
          $this->db->from('users');
          $this->db->join('school','users.school_id = school.school_id','inner');
@@ -114,7 +114,90 @@ class User extends CI_Model {
    function deletedocument($id,$user_id){
     $this->db->where(['user_id'=>$user_id,'document_id'=>$id]);
     return $this->db->delete('document');
+   }
+   function nurserycount(){
 
+    $draw = $this->input->post('draw');
+    $row = $this->input->post('start');
+    $rowperpage = $this->input->post('length'); // Rows display per page
+    $columnIndex =$this->input->post('order')[0]['column']; // Column index
+    $columnName = $this->input->post('columns')[$columnIndex]['data']; // Column name
+    $columnSortOrder = $this->input->post('order')[0]['dir']; // asc or desc
+    $searchValue = $this->input->post('search')['value']; // Search value
+
+    /*total count */
+    $this->db->select('count(*) as count');
+    $this->db->join('users','users.school_id = school.school_id ');
+    $this->db->where(['school.status'=>1,'users.is_admin'=>1]);
+   // $this->db->group_by('school.school_id'); 
+     $totalRecordwithFilter = $totalRecords = $this->db->get('school')->row()->count;
+
+
+    /* Filter Count */
+    if($searchValue){
+        $this->db->select('count(*) as count');
+        $this->db->where('status',1);
+        $this->db->like('school_name',$searchValue);
+        $this->db->or_like('school_email',$searchValue);
+        $totalRecordwithFilter = $this->db->get('school')->row()->count;
+    }
+    
+    $this->db->select('school.*,country.name,users.email');
+    $this->db->join('country','country.country_id = school.school_country');
+    $this->db->join('users','users.school_id = school.school_id ');
+     $this->db->where(['school.status'=>1,'users.is_admin'=>1]);
+    if($searchValue){
+        $this->db->like('school.school_name',$searchValue);
+        $this->db->or_like('school.school_email',$searchValue);
+    }
+  //  $this->db->group_by('school.school_id'); 
+    $this->db->order_by($columnName,$columnSortOrder);
+    $this->db->limit($rowperpage,$row);
+    $results =  $this->db->get('school')->result();
+//echo   $this->db->last_query();die();
+    //  $pag_res =[];
+    // foreach($results as $key => $result){
+    //     $pag_res[$key]['school_id'] = $row+1+$key ;
+    //     $pag_res[$key]['school_name'] =$result->school_name ;
+    //     $pag_res[$key]['school_email'] =$result->school_email ;
+    //     $pag_res[$key]['contact_name'] =$result->contact_name;
+    //     $pag_res[$key]['contact_email'] =$result->contact_email ;
+    //     $pag_res[$key]['contact_phone'] =$result->contact_phone ;
+    //     $pag_res[$key]['created_date'] ;
+    // }
+ return $response = [
+        "draw" => intval($draw),
+        "iTotalRecords" => $totalRecords,
+        "iTotalDisplayRecords" => $totalRecordwithFilter,
+        "aaData" =>$results,
+         ];
+   }
+   function Notification($userdata){
+        /*Nursery Notification*/
+        $results['TotalNotification'] = 0;
+        $this->db->select('count(*) as count');
+        $this->db->where(['request_viewed'=>0, 'DATE(created_date) !=' =>date('Y-m-d'),'status'=>1]);
+        $results['NurseryOld'] =  $this->db->get('school')->row()->count;
+        $results['TotalNotification'] +=  $results['NurseryOld'];
+        /* Today notification */
+        $this->db->select('count(*) as count');
+        $this->db->where(['DATE(created_date)'=>date('Y-m-d'),'request_viewed'=>0,'status'=>1]);
+        $results['NurseryToday'] =  $this->db->get('school')->row()->count;
+        $results['TotalNotification'] += $results['NurseryToday'];
+        $results['NurseryTotal'] = $results['TotalNotification'];
+        return $results;
+   }
+   function request_view($id){
+       $this->db->where('school_id',$id);
+       return $this->db->update('school', ['request_viewed'=>1]);
+   }
+   function NurseryDelete($id){
+       $this->db->where('school_id',$id);
+       return $this->db->update('school', ['status'=>0,'request_viewed'=>1]);
+   }
+   function ActiveNursery($update,$id){
+    $this->db->where('school_id',$id);
+    return $this->db->update('school', $update);
    }
 
  }

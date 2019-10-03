@@ -59,7 +59,8 @@ $route['dashboard'] = 'Webapp/Home';
 $route['logout'] = 'Webapp/Register/logout';
 $route['profile'] = 'Webapp/Users';
 $route['switchLanguage/(:any)'] = 'Webapp/Register/switchLanguage/$1';
-
+$route['nursery'] = 'Webapp/Nursery';
+$route['nursery/edit/(:any)'] = 'Webapp/Nursery/edit/$i';
 
 
 

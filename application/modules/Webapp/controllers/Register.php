@@ -150,10 +150,6 @@ function unique($email){
 	}
 	return true;
 }
-
-//.
-
-
    /**
      * signin for all users
      */
@@ -163,12 +159,16 @@ function signin(){
     // Cookie check
 	 if($this->input->cookie('remember_me')){
 		$cookievalue = json_decode($this->encrypt->decode($this->input->cookie('remember_me')),true);
+
+
+
+		PRINT_R($cookievalue);die();
 		$formData =[
 			"email"=>$cookievalue['email'],
 			"password"=>$cookievalue['password']];
 		 $userdata = $this->User->signin($formData);
 		 if($userdata){
-			$this->session->set_userdata(['user_id'=>$userdata->user_id]);
+			$this->session->set_userdata(['user_id'=>intval($userdata->user_id)]);
 			redirect('dashboard');
 			exit;
 		 }}
@@ -185,7 +185,9 @@ function signin(){
 				 "email"=>$this->input->post('email'),
 				 "password"=>openssl_encrypt($this->input->post('password'), "AES-128-ECB",config_item('encryption_key'))
 			];
+			//	print_r($formData);
 		$userdetails=$this->User->signin($formData);
+		
 		if($userdetails){
 		if($userdetails->user_is_active == 0 || $userdetails->school_is_active == 0){
 			$this->session->set_tempdata('Warning', '<div class="callout callout-warning" style="padding: 7px 0px 15px 15px;">
@@ -203,8 +205,8 @@ function signin(){
 			);
 			$this->input->set_cookie($cookie); 
 		   }
-
-           $this->session->set_userdata('user_id',$userdetails->user_id);
+		 
+           $this->session->set_userdata('user_id',intval($userdetails->user_id));
 	       redirect('dashboard');
 		   exit;
 

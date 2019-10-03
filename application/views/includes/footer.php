@@ -215,7 +215,7 @@
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="<?php echo base_url();?>assets/bower_components/raphael/raphael.min.js"></script>
-<script src="<?php echo base_url();?>assets/bower_components/morris.js/morris.min.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/bower_components/morris.js/morris.min.js"></script> -->
 <!-- Sparkline -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -237,7 +237,7 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>

@@ -18,7 +18,7 @@
    
     <section class="content-header">
       <h1>
-      <?=lang('User_profile');?>
+      <i class="fa fa-user" aria-hidden="true"></i> <?=lang('User_profile');?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=site_url('dashboard');?>"><i class="fa fa-dashboard"></i> <?=lang('Home');?></a></li>

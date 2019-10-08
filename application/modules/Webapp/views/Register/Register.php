@@ -45,9 +45,9 @@
     <a href=""><b>Global </b>horizon</a>
     <!-- <img src="<?php echo base_url();?>assets/img/logo1.jpg"> -->
   </div>
-        <?php
-         $this->load->view('includes/Register/Register');
-         ?>
+  <form action="<?php echo site_url('register');?>" method="post" enctype="multipart/form-data" >
+   <?php  $this->load->view('includes/Register/Register');  ?>     
+  </form>
 </div>
 <!-- /.register-box -->
 

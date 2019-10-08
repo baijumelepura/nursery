@@ -18,11 +18,12 @@
    
     <section class="content-header">
       <h1>
-      <i class="fa fa-user" aria-hidden="true"></i> <?=lang('User_profile');?>
+      <i class="fa fa-institution"></i> Edit nursery
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=site_url('dashboard');?>"><i class="fa fa-dashboard"></i> <?=lang('Home');?></a></li>
-        <li class="active"><?=lang('User_profile');?></li>
+        <li class=""><a href="<?=site_url('nursery');?>">Nursery</a></li>
+        <li class="active">Edit nursery</li>
       </ol>
     </section>
 
@@ -34,30 +35,33 @@
       <div class="row">
         <div class="col-md-3">
 
+
+
           <!-- Profile Image -->
           <div class="box box-primary">
+          <div class="box-header with-border">
+              <h3 class="box-title">Nursery details</h3>
+            </div>
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="<?=config_item('UserData')->profile_pic;?>" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="<?php echo $school->school_logo ? $school->school_logo : base_url().'assets/img/logo.png';?>" alt="User profile picture">
 
-              <h3 class="profile-username text-center"><?=config_item('UserData')->user_first_name;?> <?=config_item('UserData')->user_last_name;?></h3>
-
-              <p class="text-muted text-center"><?=$userdetails['user']->designation;?></p>
+              <h3 class="profile-username text-center"><?=$school->school_name?></h3>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b><i class="fa fa-envelope" aria-hidden="true"></i></b> <a class="pull-right"><?=$userdetails['user']->email;?></a>
+                  <b><i class="fa fa-envelope" aria-hidden="true"></i></b> <a class="pull-right"><?=$school->school_email;?></a>
                 </li>
                 <li class="list-group-item">
-                  <b><i class="fa fa-phone" aria-hidden="true"></i></b> <a class="pull-right"><?=$userdetails['user']->mobile_number;?></a>
+                  <b><i class="fa fa-phone" aria-hidden="true"></i></b> <a class="pull-right"><?=$school->school_phone;?></a>
                 </li>
+                <!-- <li class="list-group-item">
+                  <b><i class="fa fa-flag" aria-hidden="true"></i></b><a class="pull-right"><?=$school->name?><br><?=$school->school_city?></a>
+                </li> -->
                 <li class="list-group-item">
-                  <b><i class="fa fa-birthday-cake"></i></b> <a class="pull-right"><?=$userdetails['user']->dob ? nice_date($userdetails['user']->dob,'d/m/Y'):'';?></a>
+                  <b><i class="fa fa-internet-explorer" aria-hidden="true"></i></b> <a href="<?=$school->school_website?>" target="_blank" class="pull-right"><?=$school->school_website?></a>
                 </li>
-                <li class="list-group-item">
-                  <b><i class="fa fa-calendar" aria-hidden="true"></i></b> <a class="pull-right"><?=$userdetails['user']->join_date ? nice_date($userdetails['user']->join_date,'d/m/Y') : '';?></a>
-                </li>
-
-                
+                <strong><i class="fa fa-map-marker margin-r-5"></i></strong> 
+                   <p ><a class="pull-right"> <?=$school->school_address;?></a></P>
               </ul>
 
               <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
@@ -69,67 +73,78 @@
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><?=lang('About_me');?></h3>
+              <h3 class="box-title">Contact details</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-               <strong><i class="fa fa-book margin-r-5"></i> <?=lang('About');?></strong> 
-
+               <strong><i class="fa fa-user" aria-hidden="true"></i> Person Name </strong> 
               <p class="text-muted">
-               <?=$userdetails['user']->about ? $userdetails['user']->about : '-';?>
+               <?=$school->contact_name?>
               </p>
-
               <hr>
 
-              <strong><i class="fa fa-map-marker margin-r-5"></i><?=lang('Address');?> </strong>
-
+              <strong><i class="fa fa-phone" aria-hidden="true"></i> Phone / Mobile  </strong> 
               <p class="text-muted">
-              
-              <?=$userdetails['user']->address ? $userdetails['user']->address : '-';?>
-              
+               <?=$school->contact_name?>
               </p>
-
-              <!-- <hr> -->
-
-              <!-- <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-              <p>
-                <span class="label label-danger">UI Design</span>
-                <span class="label label-success">Coding</span>
-                <span class="label label-info">Javascript</span>
-                <span class="label label-warning">PHP</span>
-                <span class="label label-primary">Node.js</span>
-              </p> -->
-
-              <!-- <hr> -->
-
-              <!-- <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> -->
+              <hr>
+              <strong><i class="fa fa-envelope" aria-hidden="true"></i> Email  </strong> 
+              <p class="text-muted">
+               <?=$school->contact_name?>
+              </p>
+              <hr>
+              <strong><i class="fa fa-suitcase" aria-hidden="true"></i> Position</strong> 
+              <p class="text-muted">
+               <?=$school->contact_position?>
+              </p>
             </div>
             <!-- /.box-body -->
           </div>
+
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">administrator</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+               <strong><i class="fa fa-envelope" aria-hidden="true"></i> Email </strong> 
+              <p class="text-muted">
+               <?=$school->email?>
+              </p>
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <!-- /.box -->
         </div>
         <!-- /.col -->
         <div class="col-md-9">
-         
-         <?php
-         $this->load->view('includes/Register/Register');
-         ?>
-              
+        <form action="<?php echo  site_url('nursery/edit/'.$this->uri->segment(3));?>" method="post" enctype="multipart/form-data" >
+         <?php $this->load->view('includes/Register/Register'); ?>
 
-    
+
+         </form>
           <!-- /.box -->
               <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
           <!-- /.nav-tabs-custom -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
 
     </section>
     <!-- /.content -->

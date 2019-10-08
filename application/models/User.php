@@ -9,14 +9,93 @@ class User extends CI_Model {
      *
      * @return Boolean
      */
+    
     public function Signup($data)
     {
-        if($this->db->insert('school', $data['schoolData'])){
-            $data['Admindata']['school_id'] = $this->db->insert_id();
-            return $this->db->insert('users', $data['Admindata']) ? true : false;
+        $filename = "";
+        if(isset($_FILES['file']['name']) && $_FILES['file']['name']!=""){
+        $config['upload_path']          = './assets/uploads/logo/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             =  200;
+        //$config['max_width']          = 1024;
+        //$config['max_height']         = 768;
+        $this->load->library('upload', $config);
+        $filename = $this->upload->do_upload('file');
+        if($filename){
+           $filename = base_url().'assets/uploads/logo/'.$this->upload->data()['file_name'];
+        }}
+        /*school Details add */
+        $FormData['schoolData'] = [
+            "school_name"=>$this->input->post('NurseryName'),
+            "school_address"=>$this->input->post('NurseryAddress'),
+            "school_country"=>$this->input->post('NurseryCountry'),
+            "school_city"=>$this->input->post('NurseryCity'),
+            "school_phone"=>$this->input->post('NurseryPhone'),
+            "school_email"=>$this->input->post('NurseryEmail'),
+            "school_website"=>$this->input->post('NurseryWebsite'),
+            "contact_name"=>$this->input->post('ContactName'),
+            "contact_phone"=>$this->input->post('ContactPhone'),
+            "contact_mobile"=>$this->input->post('ContactMobile'),
+            "contact_email"=>$this->input->post('ContactEmail'),
+            "contact_position"=>$this->input->post('ContactPosition'),
+            'school_logo'=>$filename
+         ];
+            /* Admin Details */
+            $FormData['Admindata'] = [
+                'is_active'=>1,
+                'email'=>$this->input->post('email'),
+                'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
+
+        if($this->db->insert('school', $FormData['schoolData'])){
+            $FormData['Admindata']['school_id'] = $this->db->insert_id();
+            return $this->db->insert('users', $FormData['Admindata']) ? true : false;
         }else{
             return false;
         }
+    }
+
+
+    function school_edit($id){
+
+
+ 
+        /*school Details add */
+        $FormData['schoolData'] = [
+            "school_name"=>$this->input->post('NurseryName'),
+            "school_address"=>$this->input->post('NurseryAddress'),
+            "school_country"=>$this->input->post('NurseryCountry'),
+            "school_city"=>$this->input->post('NurseryCity'),
+            "school_phone"=>$this->input->post('NurseryPhone'),
+            "school_email"=>$this->input->post('NurseryEmail'),
+            "school_website"=>$this->input->post('NurseryWebsite'),
+            "contact_name"=>$this->input->post('ContactName'),
+            "contact_phone"=>$this->input->post('ContactPhone'),
+            "contact_mobile"=>$this->input->post('ContactMobile'),
+            "contact_email"=>$this->input->post('ContactEmail'),
+            "contact_position"=>$this->input->post('ContactPosition'),
+         ];
+
+         if(isset($_FILES['file']['name']) && $_FILES['file']['name']!=""){
+            $config['upload_path']          = './assets/uploads/logo/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             =  2000;
+            //$config['max_width']          = 1024;
+            //$config['max_height']         = 768;
+            $this->load->library('upload', $config);
+           
+            $filename = $this->upload->do_upload('file');
+           // print_r($this->upload->display_errors());
+            // die();
+            if($filename){
+               $filename = base_url().'assets/uploads/logo/'.$this->upload->data()['file_name'];
+               $FormData['schoolData']['school_logo'] = $filename;
+            }}
+    
+         $this->db->where('school_id',$id);
+         return  $this->db->update('school', $FormData['schoolData']);
+
+
+
     }
     /**
      * Return country 
@@ -37,7 +116,7 @@ class User extends CI_Model {
      * @return object
      */
     function signin($data){
-        $sql = 'users.user_id,users.email,users.role,users.is_active as user_is_active, school.is_active as school_is_active';
+        $sql = 'users.user_id,users.email,users.password,users.role,users.is_active as user_is_active, school.is_active as school_is_active';
          $this->db->select($sql);
          $this->db->from('users');
          $this->db->join('school','users.school_id = school.school_id','inner');
@@ -57,7 +136,7 @@ class User extends CI_Model {
         users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.status as user_status,
         users.first_name as user_first_name, users.last_name as user_last_name,users.email as user_email,users.join_date,
         users.designation,
-        school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
+        school.school_id,school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
         contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.status as school_status';
 
          $this->db->select($sql);
@@ -82,6 +161,8 @@ class User extends CI_Model {
     }
 
     function profile_update($update,$user_id){
+
+     //   print_r($update);die();
         $this->db->where('user_id',$user_id);
       return  $this->db->update('users', $update);
     }
@@ -141,11 +222,11 @@ class User extends CI_Model {
         $this->db->or_like('school_email',$searchValue);
         $totalRecordwithFilter = $this->db->get('school')->row()->count;
     }
-    
+
     $this->db->select('school.*,country.name,users.email');
     $this->db->join('country','country.country_id = school.school_country');
-    $this->db->join('users','users.school_id = school.school_id ');
-     $this->db->where(['school.status'=>1,'users.is_admin'=>1]);
+    $this->db->join('users','users.school_id = school.school_id');
+    $this->db->where(['school.status'=>1,'users.is_admin'=>1,'school.school_id !='=>config_item('UserData')->school_id]);
     if($searchValue){
         $this->db->like('school.school_name',$searchValue);
         $this->db->or_like('school.school_email',$searchValue);
@@ -154,17 +235,19 @@ class User extends CI_Model {
     $this->db->order_by($columnName,$columnSortOrder);
     $this->db->limit($rowperpage,$row);
     $results =  $this->db->get('school')->result();
-//echo   $this->db->last_query();die();
+
+    
+    //echo   $this->db->last_query();die();
     //  $pag_res =[];
-    // foreach($results as $key => $result){
-    //     $pag_res[$key]['school_id'] = $row+1+$key ;
-    //     $pag_res[$key]['school_name'] =$result->school_name ;
-    //     $pag_res[$key]['school_email'] =$result->school_email ;
-    //     $pag_res[$key]['contact_name'] =$result->contact_name;
-    //     $pag_res[$key]['contact_email'] =$result->contact_email ;
-    //     $pag_res[$key]['contact_phone'] =$result->contact_phone ;
-    //     $pag_res[$key]['created_date'] ;
-    // }
+    foreach($results as $key => $result){
+        $result->enc_id = $this->encrypt->encrypt($result->school_id);
+    }
+    // echo $this->encrypt->encrypt("baiju")
+    // print_r($this->encrypt->decrypt(''));
+
+
+
+
  return $response = [
         "draw" => intval($draw),
         "iTotalRecords" => $totalRecords,
@@ -198,6 +281,13 @@ class User extends CI_Model {
    function ActiveNursery($update,$id){
     $this->db->where('school_id',$id);
     return $this->db->update('school', $update);
+   }
+   function edit_get_nursery($id){
+        $this->db->select('school.*,country.name,users.*');
+        $this->db->join('country','country.country_id = school.school_country');
+        $this->db->join('users','users.school_id = school.school_id');
+        $this->db->where(['users.school_id'=>$id,'users.is_admin'=>1]);
+        return  $this->db->get('school')->row();
    }
 
  }

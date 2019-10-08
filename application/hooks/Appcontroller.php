@@ -8,11 +8,13 @@ class Appcontroller {
     {
         $this->CI =& get_instance();
         $this->CI->load->model('User');
+        $this->CI->lang->load('english','english'); 
     }
 
     public function session_validation()
-    {
-        $URL = ['Register-index','Register-signin','Mobileservice-index'];
+    {   
+
+        $URL = ['Register-index','Register-signin','Mobileservice-index','Register-logout'];
         if(!in_array($this->CI->router->fetch_class().'-'.$this->CI->router->fetch_method(),$URL)){
 
         if(is_null($this->CI->session->userdata('user_id'))){ redirect(site_url('signin')); exit;}
@@ -33,17 +35,15 @@ class Appcontroller {
 
             /*Notification*/
             $notification = $this->CI->User->Notification($userdata);
-            
-
-
             $this->CI->config->set_item('Notification',$notification);
 
               
             
         }
-   
-    
+
     }
+        
+   
     }
 
 }

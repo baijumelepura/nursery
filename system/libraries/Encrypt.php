@@ -188,6 +188,17 @@ class CI_Encrypt {
 		return $this->mcrypt_decode(base64_decode($string), $this->get_key($key));
 	}
 
+	public function encrypt($string,$encryption_key=null){
+		$encryption_key = $encryption_key ? $encryption_key : config_item('encryption_key');
+		return  urlencode(openssl_encrypt($string, "AES-128-ECB",$encryption_key));
+	}
+
+	public function decrypt($string,$encryption_key=null){
+		$encryption_key = $encryption_key ? $encryption_key : config_item('encryption_key');
+      	return	openssl_decrypt(urldecode($string), "AES-128-ECB",$encryption_key);
+	}
+
+
 	// --------------------------------------------------------------------
 
 	/**

@@ -36,7 +36,7 @@
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once(str_replace("core","",__DIR__).'libraries/Encrypt.php' );
 /**
  * URI Class
  *
@@ -81,7 +81,7 @@ class CI_URI {
 	 * @var	array
 	 */
 	public $rsegments = array();
-
+	private $CI;
 	/**
 	 * Permitted URI chars
 	 *
@@ -99,7 +99,12 @@ class CI_URI {
 	public function __construct()
 	{
 		$this->config =& load_class('Config', 'core');
-
+		$this->encrypts = new CI_Encrypt();
+		
+	//	$this->CI =& get_instance();
+				
+		// $this->CI =& get_instance();
+        // $this->CI->load->library('Encrypt');
 		// If query strings are enabled, we don't need to parse any segments.
 		// However, they don't make sense under CLI.
 		if (is_cli() OR $this->config->item('enable_query_strings') !== TRUE)
@@ -305,6 +310,7 @@ class CI_URI {
 		{
 			if (( ! empty($tok) OR $tok === '0') && $tok !== '..')
 			{
+				$tok = $this->encrypts->decrypt($tok,$this->config->item('encryption_key')) ? $this->encrypts->decrypt($tok,$this->config->item('encryption_key')) :$tok;
 				$uris[] = $tok;
 			}
 			$tok = strtok('/');

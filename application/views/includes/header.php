@@ -29,15 +29,9 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/select2/dist/css/select2.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-
   <script src="<?php echo base_url();?>assets/js/angular.min.js"></script>
-
-<script>
-   var base_url ='<?=base_url();?>';
-</script>
+   <?php $this->load->view('includes/script');?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini" ><!--ng-app="globalhorizon"-->
 <div class="wrapper">

@@ -5,6 +5,7 @@ class Home extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('User');
+	//	$this->load->model('Home');
 
 
 	}
@@ -13,9 +14,9 @@ class Home extends MY_Controller {
      */
 	public function index()
     {
-// echo current_url();
-//   echo lang('error_email_missing');die();
-		$data['title'] = lang('Dashboard'); 
+     // echo current_url();
+	 // echo lang('error_email_missing');die();
+	 	$data['title'] = lang('Dashboard'); 
 		$this->load->view('Dashboard/Dashboard',$data);
     }
    

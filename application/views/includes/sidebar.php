@@ -38,7 +38,8 @@ $ActiveClass = $this->router->fetch_class().'-'.$this->router->fetch_method();
           </a>
         </li>
 
-        <li class="treeview <?php if($ActiveClass=='Nursery-index'){echo 'active';}?>">
+        <li class="treeview 
+        <?php if($ActiveClass=='Nursery-index' || $ActiveClass=='Nursery-add' || $ActiveClass=='Nursery-edit'){echo 'active';}?>">
           <a href="#">
           <i class="fa fa-institution"></i>
           <span><?=lang('Nursery');?></span>
@@ -50,19 +51,21 @@ $ActiveClass = $this->router->fetch_class().'-'.$this->router->fetch_method();
             </span>
           </a>
           <ul class="treeview-menu ">
-            <li class="<?php if($ActiveClass=='Nursery-index'){echo 'active';}?>"><a href="<?=base_url('nursery');?>"><i class="fa fa-list" aria-hidden="true"></i> <span>List Nursery</span>
+            <li class="<?php if($ActiveClass=='Nursery-index' || $ActiveClass=='Nursery-edit'){echo 'active';}?>">
+            <a href="<?=base_url('nursery');?>"><i class="fa fa-list" aria-hidden="true"></i> <span><?=lang('List_Nursery');?></span>
             <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
+            
             <?php if(config_item('Notification')['TotalNotification'] > 0 ){ ?> 
               <span class="label label-success pull-right"><?=config_item('Notification')['TotalNotification'];?></span>
             <?php } ?>
             </span>
             </a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Nursery</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-users" aria-hidden="true"></i> List Users</a></li>
+            <li class="<?php if($ActiveClass=='Nursery-add'){echo 'active';}?>"><a href="<?=site_url('nursery/add');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=lang('Add_Nursery');?></a></li>
+            <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i>
+             <?=lang('Create_staff');?>
+            </a></li>
           </ul>
         </li>
-
 
 
 

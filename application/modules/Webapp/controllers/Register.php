@@ -12,7 +12,8 @@ class Register extends MY_Controller {
      */
 	public function index()
     {
-		$data['title'] = "Register a new membership"; 
+		$data['title'] = "Register a new membership";
+		$data['slug'] = "User-Add-Membership";
 		/*capta config */ 
 		$vals = array(
 			'word'          => rand(1,999999),
@@ -29,6 +30,8 @@ class Register extends MY_Controller {
                 'grid' => array(255, 40, 40))
 			);
 		 $data = array_merge(create_captcha($vals),$data);
+
+
 	if($this->input->post()){
 		$this->form_validation->set_rules('NurseryName','Name','trim|required|min_length[3]|max_length[30]');
 		$this->form_validation->set_rules('NurseryPhone','Phone','trim|required|min_length[3]|max_length[15]|regex_match[/^[0-9,]+$/]');
@@ -50,51 +53,14 @@ class Register extends MY_Controller {
 		$this->form_validation->set_rules('file', 'Image', 'callback_file_check');
 
 	if($this->form_validation->run()==true){
-	        	$filename = "";
-
-				if(isset($_FILES['file']['name']) && $_FILES['file']['name']!=""){
-                $config['upload_path']          = './assets/uploads/logo/';
-                $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size']             =  200;
-                // $config['max_width']         = 1024;
-                //$config['max_height']         = 768;
-                $this->load->library('upload', $config);
-				$filename = $this->upload->do_upload('file');
-                if($filename){
-				   $filename = base_url().'assets/uploads/logo/'.$this->upload->data()['file_name'];
-				}}
- 
-		 /*school Details add */
-		$FormData['schoolData'] = [
-			"school_name"=>$this->input->post('NurseryName'),
-			"school_address"=>$this->input->post('NurseryAddress'),
-			"school_country"=>$this->input->post('NurseryCountry'),
-			"school_city"=>$this->input->post('NurseryCity'),
-			"school_phone"=>$this->input->post('NurseryPhone'),
-			"school_email"=>$this->input->post('NurseryEmail'),
-			"school_website"=>$this->input->post('NurseryWebsite'),
-			"contact_name"=>$this->input->post('ContactName'),
-			"contact_phone"=>$this->input->post('ContactPhone'),
-			"contact_mobile"=>$this->input->post('ContactMobile'),
-			"contact_email"=>$this->input->post('ContactEmail'),
-			"contact_position"=>$this->input->post('ContactPosition'),
-			'school_logo'=>$filename];
-		/* Admin Details */
-		$FormData['Admindata'] = [
-			//'user_type'=>'Admin',
-			'email'=>$this->input->post('email'),
-			'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
-		$result = $this->User->Signup($FormData);
+		$result = $this->User->Signup("Web-Add");
 		$this->session->set_flashdata('Success', '<div class="callout callout-success" style="padding: 7px 0px 15px 15px;">
 		You have registered successfully.
 		</div>');
 		redirect('signin');
-	}
-
-	}
+	} }
         $data['country']=$this->User->get_country();
         $this->load->view('Register/Register',$data);
-
 	}
      /*
      * file value and type check during validation
@@ -159,10 +125,6 @@ function signin(){
     // Cookie check
 	 if($this->input->cookie('remember_me')){
 		$cookievalue = json_decode($this->encrypt->decode($this->input->cookie('remember_me')),true);
-
-
-
-		PRINT_R($cookievalue);die();
 		$formData =[
 			"email"=>$cookievalue['email'],
 			"password"=>$cookievalue['password']];
@@ -186,8 +148,7 @@ function signin(){
 				 "password"=>openssl_encrypt($this->input->post('password'), "AES-128-ECB",config_item('encryption_key'))
 			];
 			//	print_r($formData);
-		$userdetails=$this->User->signin($formData);
-		
+		$userdetails=$this->User->signin($formData);		
 		if($userdetails){
 		if($userdetails->user_is_active == 0 || $userdetails->school_is_active == 0){
 			$this->session->set_tempdata('Warning', '<div class="callout callout-warning" style="padding: 7px 0px 15px 15px;">
@@ -223,6 +184,7 @@ function signin(){
 }
 function logout(){
 	session_destroy();
+	delete_cookie(['name'=>'remember_me','value' =>'','expire'=>'0']);
 	redirect(site_url('signin'));
 }
 function switchLanguage($language = null ) {

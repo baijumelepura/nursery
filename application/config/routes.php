@@ -60,8 +60,8 @@ $route['logout'] = 'Webapp/Register/logout';
 $route['profile'] = 'Webapp/Users';
 $route['switchLanguage/(:any)'] = 'Webapp/Register/switchLanguage/$1';
 $route['nursery'] = 'Webapp/Nursery';
-$route['nursery/edit/(:any)'] = 'Webapp/Nursery/edit/$i';
-
+$route['nursery/edit/(:any)'] = 'Webapp/Nursery/edit/$1';
+$route['nursery/add'] = 'Webapp/Nursery/add';
 
 
 

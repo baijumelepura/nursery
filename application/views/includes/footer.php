@@ -204,7 +204,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
-<script src="<?php echo base_url();?>assets/bower_components/jquery/dist/jquery.min.js"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -244,5 +244,16 @@
 
 <script src="<?php echo base_url();?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/growl-jquery.js"></script>
+
+<script src="<?php echo base_url();?>assets/js/datepicker/jquery.plugin.js"></script>
+<script src="<?php echo base_url();?>assets/js/datepicker/jquery.calendars.js"></script>
+<script src="<?php echo base_url();?>assets/js/datepicker/jquery.calendars.plus.js"></script>
+<script src="<?php echo base_url();?>assets/js/datepicker/jquery.calendars.picker.js"></script>
+<script>
+$(function() {
+	$('.popupDatepicker').calendarsPicker({dateFormat: 'dd-mm-yyyy'});
+});
+</script>
 </body>
 </html>

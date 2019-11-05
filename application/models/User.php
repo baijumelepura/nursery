@@ -120,7 +120,7 @@ class User extends CI_Model {
          $this->db->select($sql);
          $this->db->from('users');
          $this->db->join('school','users.school_id = school.school_id','inner');
-         $this->db->where(array('users.email'=>$data['email'],'users.password' =>$data['password'],'users.status'=>1,'school.status'=>1));
+         $this->db->where(array('users.email'=>$data['email'],'users.password' =>$data['password'],'users.is_delete'=>1,'school.is_delete'=>1));
          return $this->db->get()->row();
     }
 
@@ -133,11 +133,11 @@ class User extends CI_Model {
      */
     function get_uesrdetails($user_id){
         $sql = 'user_role.user_role_name,
-        users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.status as user_status,
+        users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.is_delete as user_status,
         users.first_name as user_first_name, users.last_name as user_last_name,users.email as user_email,users.join_date,
         users.designation,
         school.school_id,school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
-        contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.status as school_status';
+        contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.is_delete as school_status';
 
          $this->db->select($sql);
          $this->db->from('users');
@@ -150,13 +150,13 @@ class User extends CI_Model {
     function emailunique($email){
         $sql = 'users.user_id,users.role,
         school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
-        contact_phone,contact_mobile,contact_email,contact_position,users.is_active as user_is_active ,users.status as user_status,
-        school.is_active as school_is_active ,school.status as school_status ,users.first_name as user_first_name,
+        contact_phone,contact_mobile,contact_email,contact_position,users.is_active as user_is_active ,users.is_delete as user_status,
+        school.is_active as school_is_active ,school.is_delete as school_status ,users.first_name as user_first_name,
         users.last_name as user_last_name,users.email as user_email';
          $this->db->select($sql);
          $this->db->from('users');
          $this->db->join('school','users.school_id = school.school_id','inner');
-         $this->db->where(array('users.email'=>$email,'users.status'=>1,'school.status'=>1));
+         $this->db->where(array('users.email'=>$email,'users.is_delete'=>1,'school.is_delete'=>1));
          return $this->db->get()->row();
     }
 
@@ -208,8 +208,8 @@ class User extends CI_Model {
 
     /*total count */
     $this->db->select('count(*) as count');
-    $this->db->join('users','users.school_id = school.school_id ');
-    $this->db->where(['school.status'=>1,'users.is_admin'=>1]);
+    $this->db->join('users','users.school_id = school.school_id');
+    $this->db->where(['school.is_delete'=>1,'users.is_admin'=>1]);
    // $this->db->group_by('school.school_id'); 
      $totalRecordwithFilter = $totalRecords = $this->db->get('school')->row()->count;
 
@@ -217,7 +217,7 @@ class User extends CI_Model {
     /* Filter Count */
     if($searchValue){
         $this->db->select('count(*) as count');
-        $this->db->where('status',1);
+        $this->db->where('is_delete',1);
         $this->db->like('school_name',$searchValue);
         $this->db->or_like('school_email',$searchValue);
         $totalRecordwithFilter = $this->db->get('school')->row()->count;
@@ -226,7 +226,7 @@ class User extends CI_Model {
     $this->db->select('school.*,country.name,users.email');
     $this->db->join('country','country.country_id = school.school_country');
     $this->db->join('users','users.school_id = school.school_id');
-    $this->db->where(['school.status'=>1,'users.is_admin'=>1,'school.school_id !='=>config_item('UserData')->school_id]);
+    $this->db->where(['school.is_delete'=>1,'users.is_admin'=>1,'school.school_id !='=>config_item('UserData')->school_id]);
     if($searchValue){
         $this->db->like('school.school_name',$searchValue);
         $this->db->or_like('school.school_email',$searchValue);
@@ -259,12 +259,12 @@ class User extends CI_Model {
         /*Nursery Notification*/
         $results['TotalNotification'] = 0;
         $this->db->select('count(*) as count');
-        $this->db->where(['request_viewed'=>0, 'DATE(created_date) !=' =>date('Y-m-d'),'status'=>1]);
+        $this->db->where(['request_viewed'=>0, 'DATE(created_date) !=' =>date('Y-m-d'),'is_delete'=>1]);
         $results['NurseryOld'] =  $this->db->get('school')->row()->count;
         $results['TotalNotification'] +=  $results['NurseryOld'];
         /* Today notification */
         $this->db->select('count(*) as count');
-        $this->db->where(['DATE(created_date)'=>date('Y-m-d'),'request_viewed'=>0,'status'=>1]);
+        $this->db->where(['DATE(created_date)'=>date('Y-m-d'),'request_viewed'=>0,'is_delete'=>1]);
         $results['NurseryToday'] =  $this->db->get('school')->row()->count;
         $results['TotalNotification'] += $results['NurseryToday'];
         $results['NurseryTotal'] = $results['TotalNotification'];
@@ -276,7 +276,7 @@ class User extends CI_Model {
    }
    function NurseryDelete($id){
        $this->db->where('school_id',$id);
-       return $this->db->update('school', ['status'=>0,'request_viewed'=>1]);
+       return $this->db->update('school', ['is_delete'=>0,'request_viewed'=>1]);
    }
    function ActiveNursery($update,$id){
     $this->db->where('school_id',$id);
@@ -288,6 +288,56 @@ class User extends CI_Model {
         $this->db->join('users','users.school_id = school.school_id');
         $this->db->where(['users.school_id'=>$id,'users.is_admin'=>1]);
         return  $this->db->get('school')->row();
+   }
+   function Super_user($id){
+        $this->db->select('user_id');
+        $this->db->where(['user_id'=>0,'is_admin'=>1,'school_id'=>$id]);
+        return $this->db->get('users')->row() ? true : false;
+   }
+   function get_all_users($id){
+        $data['users.school_id'] = $id;
+        if(!config_item('UserData')->Super_user){ $data['users.school_id'] = config_item('UserData')->school_id; }
+        $data['users.is_delete']= 1;
+
+        $sql = 'user_role.user_role_name,
+        users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.is_delete as user_status,
+        users.first_name as user_first_name, users.last_name as user_last_name,users.email as user_email,users.join_date,
+        users.designation,users.dob,users.mobile_number,users.job_type,users.is_admin,
+        school.school_id,school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
+        contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.is_delete as school_status';
+
+         $this->db->select($sql);
+         $this->db->from('users');
+         $this->db->join('school','users.school_id = school.school_id','left');
+         $this->db->join('user_role','users.role = user_role.user_role_id','left');
+         $this->db->where($data);
+         return $this->db->get()->result();
+   }
+   function getStaffdetails($id){
+   $sql = "users.user_id,users.first_name,users.last_name,users.email,users.mobile_number,users.school_id,users.profile_pic,
+           users.designation,users.job_type,users.country,users.city,users.join_date,users.dob,users.address,users.about,
+           users.role,users.is_admin,users.is_active,users.created_date,
+           country.name,
+           user_role.user_role_name
+           ";
+    $this->db->select($sql);
+    $this->db->join('country','country.country_id = users.country','inner');
+    $this->db->join('user_role','user_role.user_role_id = users.role','inner');
+    $this->db->where('user_id',$id);
+    $data['user'] =  $this->db->get('users')->row();
+
+    $this->db->select('*');
+    $this->db->where('user_id',$id);
+    $data['doc'] = $this->db->order_by("document_id", "DESC")->get('document')->result();
+    return $data;
+   }
+   function userstatus($id,$data){
+        $this->db->where('user_id',$id);
+        $this->db->update('users',$data);
+   }
+   function staffadd($data){
+    $this->db->insert('users',$data);
+    return $this->db->insert_id();
    }
 
  }

@@ -134,9 +134,11 @@ function signin(){
 			redirect('dashboard');
 			exit;
 		 }}
+
+		 
 		 // session redirection
-			if($this->session->userdata('user_id')){
-			  redirect('dashboard');
+		   if($this->session->userdata('user_id') ||  $this->session->userdata('user_id') === 0){
+			   redirect('dashboard');
 			  exit;
 			}
 	if($this->input->post()){

@@ -57,15 +57,28 @@ $route['register'] = 'Webapp/Register';
 $route['signin'] = 'Webapp/Register/signin';
 $route['dashboard'] = 'Webapp/Home';
 $route['logout'] = 'Webapp/Register/logout';
-$route['profile'] = 'Webapp/Users';
+
+
+
+
+
 $route['switchLanguage/(:any)'] = 'Webapp/Register/switchLanguage/$1';
 $route['nursery'] = 'Webapp/Nursery';
 $route['nursery/edit/(:any)'] = 'Webapp/Nursery/edit/$1';
 $route['nursery/add'] = 'Webapp/Nursery/add';
 
+$route['roles'] = 'Roles/Roles';
+$route['roles/(:any)'] = 'Roles/Roles/index/$1';
+
+
+$route['staff'] = 'Staff/Staff';
+$route['profile'] = 'Staff/Profile';
+
+
+
 
 
 $route['default_controller'] = $route['signin'];
-$route['404_override'] = '';
+$route['404_override'] = 'Webapp/Error';
 $route['translate_uri_dashes'] = FALSE;
 

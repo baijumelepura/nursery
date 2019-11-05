@@ -18,7 +18,7 @@
    
     <section class="content-header">
       <h1>
-      <i class="fa fa-user" aria-hidden="true"></i> <?=lang('User_profile');?>
+      <i class="fa fa-address-card-o" aria-hidden="true"></i>   <?=lang('User_profile');?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=site_url('dashboard');?>"><i class="fa fa-dashboard"></i> <?=lang('Home');?></a></li>
@@ -329,7 +329,7 @@
 
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><?=lang('Change_Password');?></h3>
+              <h3 class="box-title"><i class="fa fa-unlock-alt" aria-hidden="true"></i>  <?=lang('Change_Password');?></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

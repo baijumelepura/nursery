@@ -3,8 +3,6 @@
 
 
  function datatable(){
-
-
         $('#example1').DataTable({
             'processing': true,
             'serverSide': true,
@@ -50,7 +48,8 @@
         '<li><a style="cursor: pointer;"  onclick="active('+aData.school_id+','+aData.is_active+')">'+act+'</a></li>'+
         '<li class="divider"></li>'+
         '<li><a href="'+base_url+'nursery/edit/'+aData.enc_id+'" >'+Edit+'</a></li>'+
-
+        '<li class="divider"></li>'+
+        '<li><a href="'+base_url+'roles/'+aData.school_id+'" >Role</a></li>'+
         '<li class="divider"></li>'+
         '<li><a style="cursor: pointer;" onclick="Nurserydelete('+aData.school_id+')">'+Delete+'</a></li>'+
         '</ul>'+
@@ -133,7 +132,6 @@
         '<td><b>'+Email+'</b></td>'+
         '<td>'+aData.contact_email+'</td>'+
         '</tr>'+
-        
         '<tr>'+
         '<td><b>'+Position+'</b></td>'+
         '<td>'+aData.contact_position+'</td>'+

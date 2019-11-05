@@ -19,4 +19,7 @@
    var Administrator ='<?=lang('Administrator');?>';
    var View ='<?=lang('View');?>';
    var Close ='<?=lang('Close');?>';
+   // ajax config //
+   var config = { headers : { 'Content-Type': undefined , 'processData' : false} };
+
 </script>

@@ -39,7 +39,11 @@ $ActiveClass = $this->router->fetch_class().'-'.$this->router->fetch_method();
         </li>
 
         <li class="treeview 
-        <?php if($ActiveClass=='Nursery-index' || $ActiveClass=='Nursery-add' || $ActiveClass=='Nursery-edit'){echo 'active';}?>">
+        <?php if($ActiveClass=='Nursery-index' || 
+        $ActiveClass=='Nursery-add' || 
+        $ActiveClass=='Nursery-edit' ||
+        $ActiveClass=='Staff-index'
+        ){echo 'active';}?>">
           <a href="#">
           <i class="fa fa-institution"></i>
           <span><?=lang('Nursery');?></span>
@@ -61,28 +65,28 @@ $ActiveClass = $this->router->fetch_class().'-'.$this->router->fetch_method();
             </span>
             </a></li>
             <li class="<?php if($ActiveClass=='Nursery-add'){echo 'active';}?>"><a href="<?=site_url('nursery/add');?>"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=lang('Add_Nursery');?></a></li>
-            <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i>
-             <?=lang('Create_staff');?>
+            <li class="<?php if($ActiveClass=='Staff-index'){echo 'active';}?>"><a href="<?=site_url('staff');?>"><i class="fa fa-users" aria-hidden="true"></i>
+             Staff / Teacher
             </a></li>
           </ul>
         </li>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <li class="treeview 
+        <?php if($ActiveClass=='Roles-index'){echo 'active';}?>">
+          <a href="#">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          <span>Settings</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu ">
+            <li class="<?php if($ActiveClass=='Roles-index'){echo 'active';}?>">
+            <a href="<?=base_url('roles');?>">
+              <i class="fa fa-user-secret"></i> <span>Role Permissions</span>
+            </a></li>
+          </ul>
+        </li>
 
 
 <!-- 

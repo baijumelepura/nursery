@@ -5559,3 +5559,7 @@ hr {
 .content-wrapper {
   min-height: 570px !important;
 }
+.error{
+  color:red;
+  font-weight: 500;
+}

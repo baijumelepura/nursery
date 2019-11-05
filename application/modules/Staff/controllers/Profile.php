@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Users extends MY_Controller {
+class Profile extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 	    $this->load->model('User');
@@ -25,7 +25,7 @@ class Users extends MY_Controller {
 			$this->form_validation->set_rules('about','About','trim|required');
 			
 			if($this->form_validation->run()==true){
-			$update['first_name'] ='خاصة بهم';//$this->input->post('firstname');
+			$update['first_name'] = $this->input->post('firstname');
 			$update['last_name'] =$this->input->post('lastname');
 			$this->input->post('dob') ? $update['dob'] =  date('Y-m-d', strtotime(str_replace('/', '-',$this->input->post('dob')))):'';
 			$update['country']= $this->input->post('country');
@@ -81,7 +81,7 @@ class Users extends MY_Controller {
 		$data['country']=$this->User->get_country();
 		$data['userdetails'] = $this->User->get_profile_details(config_item('UserData')->user_id);
 		
-		$this->load->view('Users/Profile',$data);
+		$this->load->view('Profile/Profile',$data);
 	}
 	
 function password_validation($pass){

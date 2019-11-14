@@ -529,4 +529,50 @@ class CI_Encrypt {
 			? substr($str, $start, $length)
 			: substr($str, $start);
 	}
+  /**
+     * Return Error Message
+     *
+     * Commom menthod for outputting error message
+     *
+     * @return array
+     */
+    function error($message, $code)
+    {   
+       // $tokenData['CurrenTime'] = Date('Y-m-d h:i:s');
+       // $tokenData['ExpTime'] = Date('Y-m-d h:i:s');
+        return array(
+            'data' => null,
+            'status' => false,
+            //'Tocken'=>$this->jwt->encode($tokenData,config_item('JWT_key')),
+            'error' => array(
+                'errorMsg' => $message,
+                'errorCode' => $code
+            )
+        );
+    }
+
+    /**
+     * Return Success Message
+     *
+     * Commom menthod for outputting success message
+     *
+     * @return array
+     */
+   function success($data)
+    {  
+      //  $tokenData['CurrenTime'] = Date('Y-m-d h:i:s');
+      //  $tokenData['ExpTime'] = Date('Y-m-d h:i:s');
+        return array(
+            'data' => $data,
+           // 'Tocken'=>$this->jwt->encode($tokenData,config_item('JWT_key')),
+            'status' => true,
+            'error' => null
+        );
+    }
+
+
+
+
+
+
 }

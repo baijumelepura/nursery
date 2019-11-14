@@ -41,14 +41,15 @@ class User extends CI_Model {
             'school_logo'=>$filename
          ];
             /* Admin Details */
-            $FormData['Admindata'] = [
-                'is_active'=>1,
-                'email'=>$this->input->post('email'),
-                'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
-
+    $FormData['Admindata'] = [
+        'is_active'=>1,
+        'email'=>$this->input->post('email'),
+        'password'=>openssl_encrypt($this->input->post('password'),"AES-128-ECB",config_item('encryption_key'))];
         if($this->db->insert('school', $FormData['schoolData'])){
-            $FormData['Admindata']['school_id'] = $this->db->insert_id();
-            return $this->db->insert('users', $FormData['Admindata']) ? true : false;
+              $FormData['Admindata']['school_id'] = $this->db->insert_id();
+              $role =  $this->permissions->DefaultRole($FormData['Admindata']['school_id']);
+              $FormData['Admindata']['role'] = $role->user_role_id;
+              return $this->db->insert('users', $FormData['Admindata']) ? true : false;
         }else{
             return false;
         }
@@ -56,9 +57,6 @@ class User extends CI_Model {
 
 
     function school_edit($id){
-
-
- 
         /*school Details add */
         $FormData['schoolData'] = [
             "school_name"=>$this->input->post('NurseryName'),
@@ -135,7 +133,8 @@ class User extends CI_Model {
         $sql = 'user_role.user_role_name,
         users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.is_delete as user_status,
         users.first_name as user_first_name, users.last_name as user_last_name,users.email as user_email,users.join_date,
-        users.designation,
+        users.designation,users.password,users.dob,users.city,users.address as user_address,users.mobile_number,users.about,
+        users.country as user_country,users.job_type,
         school.school_id,school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
         contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.is_delete as school_status';
 
@@ -226,7 +225,10 @@ class User extends CI_Model {
     $this->db->select('school.*,country.name,users.email');
     $this->db->join('country','country.country_id = school.school_country');
     $this->db->join('users','users.school_id = school.school_id');
-    $this->db->where(['school.is_delete'=>1,'users.is_admin'=>1,'school.school_id !='=>config_item('UserData')->school_id]);
+
+
+
+    $this->db->where(['school.is_delete'=>1,'users.is_admin'=>1]);
     if($searchValue){
         $this->db->like('school.school_name',$searchValue);
         $this->db->or_like('school.school_email',$searchValue);
@@ -311,7 +313,7 @@ class User extends CI_Model {
          $this->db->join('school','users.school_id = school.school_id','left');
          $this->db->join('user_role','users.role = user_role.user_role_id','left');
          $this->db->where($data);
-         return $this->db->get()->result();
+         return $this->db->order_by("users.user_id", "DESC")->get()->result();
    }
    function getStaffdetails($id){
    $sql = "users.user_id,users.first_name,users.last_name,users.email,users.mobile_number,users.school_id,users.profile_pic,
@@ -339,6 +341,66 @@ class User extends CI_Model {
     $this->db->insert('users',$data);
     return $this->db->insert_id();
    }
+   function get_rules($id){
+    $data['is_delete']=1;
+    $data['school_id'] =  $id; 
 
- }
+    $this->db->select('*');
+    $this->db->where($data);
+    $this->db->order_by('user_role_id','DESC');
+    return $this->db->get('user_role')->result();
+   }
+   function get_uesr_details($user_id){
+    $sql = 'user_role.user_role_name,
+    users.user_id,users.role,school_logo,profile_pic,users.is_active as user_is_active ,users.is_delete as user_status,
+    users.first_name as user_first_name, users.last_name as user_last_name,users.email as user_email,users.join_date,
+    users.designation,users.password,users.dob,users.city,users.address as user_address,users.mobile_number,users.about,
+    users.country as user_country,users.job_type,
+    school.school_id,school_name,school_address,school_country,school_city,school_phone,school_email,school_website,contact_name,
+    contact_phone,contact_mobile,contact_email,contact_position,school.is_active as school_is_active ,school.is_delete as school_status';
+
+     $this->db->select($sql);
+     $this->db->from('users');
+     $this->db->join('school','users.school_id = school.school_id','inner');
+     $this->db->join('user_role','users.role = user_role.user_role_id','inner');
+     $this->db->where('users.user_id',$user_id);
+     $data['users']= $this->db->get()->row();
+
+     $this->db->select('*');
+     $this->db->where('user_id',$user_id);
+     $data['doc'] = $this->db->order_by("document_id", "DESC")->get('document')->result();
+     return $data;
+}
+function alldocumentget($id){
+    $this->db->select('*');
+    $this->db->where(['document_id'=>$id]);
+    $data =  $this->db->get('document')->row();
+    $this->db->where(['document_id'=>$id]);
+    $this->db->delete('document');
+    return $data;
+}
+function EditStaff($data , $userid){
+    $this->db->where('user_id',$userid);
+    return  $this->db->update('users',$data);
+}
+function delete_staff($userid){
+    $this->db->where('user_id',$userid);
+    return  $this->db->update('users',['is_delete'=>0,'is_active'=>0]);
+}
+function edit_email_unique($userid,$email){
+    $this->db->select('*');
+    $this->db->where(['email'=>$email,'user_id !='=> $userid]);
+    return $this->db->get('users')->row();
+}
+function get_school_details($schoolid){
+    $this->db->select('*');
+    $this->db->where('school_id',$schoolid);
+    return $this->db->get('school')->row();
+}
+
+
+
+
+
+}
 ?>

@@ -72,6 +72,7 @@ $route['roles/(:any)'] = 'Roles/Roles/index/$1';
 
 
 $route['staff'] = 'Staff/Staff';
+$route['staff/(:any)'] = 'Staff/Staff/index/$1';
 $route['profile'] = 'Staff/Profile';
 
 

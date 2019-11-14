@@ -44,7 +44,14 @@ function delete_rule($id){
          }
         $this->db->where($data);
         return   $this->db->update('user_role',['is_delete'=>0 ]);       
-
+}
+function DefaultRole($data){
+        return $this->db->insert('user_role',$data);
+}
+function DefaultRoleAdminId($SchoolID){
+        $this->db->select('user_role_id,school_id,user_role_name');
+        $this->db->where(['school_id'=>$SchoolID,'user_role_name'=>'Admin']);
+        return $this->db->get('user_role')->row();
 }
 
 

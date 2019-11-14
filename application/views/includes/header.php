@@ -30,7 +30,8 @@
   <script src="<?php echo base_url();?>assets/js/angular.min.js"></script>
   <script src="<?php echo base_url();?>assets/js/dirPagination.js"></script>
   <script src="<?php echo base_url();?>assets/js/angular-validate.min.js"></script>
-  <script> var app = angular.module('globalhorizon', ['angularUtils.directives.dirPagination','ngValidate']); </script>
+ <script> var app = angular.module('globalhorizon', ['angularUtils.directives.dirPagination','ngValidate']); </script>
+ <script src="<?php echo base_url();?>assets/js/module/service.js"></script>
   <?php $this->load->view('includes/script');?>
 
 

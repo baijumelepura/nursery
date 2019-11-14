@@ -37,6 +37,16 @@
                   <label >Designation <span style="color:red;">*</span></label>
                   <input type="text" name="Designation" class="form-control" placeholder="Enter Designation">
                 </div>
+
+                <div class="form-group">
+                  <label >Job Type<span style="color:red;">*</span></label>
+                  <select class="form-control" name="jobType" id="jobType">
+				      			<option value="">Select an option</option>
+				      			<option value="Full-Time">Full-Time</option>
+				      			<option value="Part-Time">Part-Time</option>
+				      		</select>
+                </div>
+
                 <div class="form-group">
                   <label >Address <span style="color:red;">*</span></label>
                   <textarea name="Address" class="form-control" rows="3" placeholder="Enter The Address"></textarea>
@@ -71,12 +81,27 @@
                  <?php  } ?>
                </select>
 
-               
                 </div>
+
                 <div class="form-group">
                   <label >Contact  <span style="color:red;">*</span></label>
                   <input type="text" name="Contact" class="form-control" placeholder="Enter The Contact Number">
                 </div>
+
+
+
+                <div class="form-group">
+                  <label >Role<span style="color:red;">*</span></label>
+                  <select class="form-control" name="Role" id="Role">
+				      			<option value="">Select a Role</option>
+                    <?php foreach($get_rules as $get_rules){ ?>
+				      			<option value="<?=$get_rules->user_role_id;?>"><?=$get_rules->user_role_name;?></option>
+                    <?php } ?>
+				      		</select>
+                  <a href="<?=site_url('roles/'.$this->encrypt->encrypt($school_id));?>" target="_blank" class="pull-right"><i class="fa fa-fw fa-plus"></i> Add Role</a>
+                </div>
+
+              
                 <div class="form-group">
                   <label >Register Date <span style="color:red;">*</span></label>
                   <input type="text" name="Registerdate" class="form-control popupDatepicker" placeholder="Enter The Register Date" readonly>
@@ -109,8 +134,9 @@
       </div>
       </div>
         <div class="modal-footer">
-        <input type="submit" class="btn btn-primary" name="Submit" value="Submit">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button ng-if="Staff.actionspinner" disabled type="button" class="btn btn-primary" data-dismiss="modal"> <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Submit</button>
+            <input ng-if="!Staff.actionspinner" type="submit" class="btn btn-primary" name="Submit" value="Submit">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -143,6 +169,7 @@ $('.fileinput').on('click','.remove',function(){
  var deleteindex = split_id[1];
  $("#div_" + deleteindex).remove();
 }); 
+
 });
 
 </script>

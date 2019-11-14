@@ -37,7 +37,8 @@
              'aTargets': [1,7]}],});
     }
    function htmlpopup(aData) {
-    if(aData.is_active==0){var act=Active; var color="btn-info"; }else{ var act=Deactive; var color="btn-warning";}
+    if(aData.is_active==0){var act=Active; var color="btn-info"; var icon ='<i class="fa fa-check"></i>'; 
+    }else{ var icon ='<i class="fa fa-ban"></i>'; var act=Deactive; var color="btn-warning";}
         var el ='<div class="btn-group" style="width: 63px;">'+
         '<button type="button" class="btn btn-info btn-xs" onclick="request_viewed('+aData.school_id+')"  data-toggle="modal" data-target="#myModal_'+aData.school_id+'">'+View+'</button>'+
         ' <button type="button" class="btn btn-info btn-xs 	dropdown-toggle" data-toggle="dropdown">'+
@@ -45,13 +46,15 @@
         '<span class="sr-only"></span>'+
         '</button>'+
         '<ul class="dropdown-menu" style="margin:2px 0px 0px -98px !important" role="menu">'+
-        '<li><a style="cursor: pointer;"  onclick="active('+aData.school_id+','+aData.is_active+')">'+act+'</a></li>'+
+        '<li><a style="cursor: pointer;"  onclick="active('+aData.school_id+','+aData.is_active+')">'+icon+act+'</a></li>'+
         '<li class="divider"></li>'+
-        '<li><a href="'+base_url+'nursery/edit/'+aData.enc_id+'" >'+Edit+'</a></li>'+
+        '<li><a target="_blank" href="'+base_url+'nursery/edit/'+aData.enc_id+'" ><i class="fa fa-edit"></i>'+Edit+'</a></li>'+
         '<li class="divider"></li>'+
-        '<li><a href="'+base_url+'roles/'+aData.school_id+'" >Role</a></li>'+
+        '<li><a target="_blank" href="'+base_url+'roles/'+aData.school_id+'" > <i class="fa fa-user-secret" ></i> Role</a></li>'+
         '<li class="divider"></li>'+
-        '<li><a style="cursor: pointer;" onclick="Nurserydelete('+aData.school_id+')">'+Delete+'</a></li>'+
+        '<li><a target="_blank" href="'+base_url+'staff/'+aData.school_id+'" ><i class="fa fa-users" ></i> Staff</a></li>'+
+        '<li class="divider"></li>'+
+        '<li><a style="cursor: pointer;" onclick="Nurserydelete('+aData.school_id+')"><i class="fa fa-trash" aria-hidden="true"></i> '+Delete+'</a></li>'+
         '</ul>'+
         '</div>'+
         '<div id="myModal_'+aData.school_id+'" class="modal fade " role="dialog">'+
